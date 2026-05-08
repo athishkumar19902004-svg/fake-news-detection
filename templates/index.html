@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake News Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Fake News Detection</h1>
+    <p class="subtitle">Paste a news article and click <b>Analyze</b> to see whether it looks real or fake.</p>
+
+    <form action="/predict" method="post">
+        <textarea id="news" name="news" placeholder="Enter news text here..." required>{{ news_text or '' }}</textarea>
+        <br>
+        <div class="button-row">
+            <button class="btn btn-primary" type="submit">Analyze</button>
+            <button class="btn btn-secondary" type="button" onclick="clearAnalysis()">Refresh</button>
+        </div>
+    </form>
+
+    <div id="result" class="result" aria-live="polite">
+        {% if prediction_text %}
+            <h2>{{ prediction_text }}</h2>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function clearAnalysis() {
+        const textarea = document.getElementById('news');
+        const result = document.getElementById('result');
+        if (textarea) textarea.value = '';
+        if (result) result.innerHTML = '';
+    }
+</script>
+</body>
+</html>
